@@ -1,3 +1,4 @@
+const now = new Date().toISOString;
 exports.seed = knex => {
 	return knex('users')
 		.del()
@@ -10,7 +11,9 @@ exports.seed = knex => {
 					lastname: 'Adminson',
 					role: 'admin',
 					password:
-						'$2y$12$O2PoDq6j5ZJ3XhvlWR1BleJDaGD4nxRsFwqsWtyCG.2FpvYwj7kUu', //admin
+						'$2b$12$HX/s/IaaVDx6X73xV8Q0mO1fBn4QaBUSl6tWuokjlEm79YoBZmzYu', //admin
+					created_at: new Date().toISOString(),
+					updated_at: new Date().toISOString(),
 				},
 				{
 					id: 2,
@@ -19,7 +22,9 @@ exports.seed = knex => {
 					lastname: 'Userson',
 					role: 'user',
 					password:
-						'$2y$12$XVvb45pYiVelsj9Aw5f7zOn3q8wkh734BP0ZQUEhE5cvOes2t9p4.', //user
+						'$2b$12$qpuxyUwDpfmLfkuYYSuqhOmQd055fitr4oxZWxU13GCa0lY0RNcH.', //user
+					created_at: new Date().toISOString(),
+					updated_at: new Date().toISOString(),
 				},
 			]);
 		});

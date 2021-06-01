@@ -2,13 +2,15 @@
 	"name": "backend",
 	"version": "1.0.0",
 	"main": "index.js",
+	"author": "Urakov Aliaskar",
 	"license": "MIT",
 	"scripts": {
-		"serve": "cross-env NODE_ENV=development nodemon src/server.js",
+		"serve": "cross-env NODE_ENV=development nodemon --exec babel-node -- src/server.js",
 		"knex:make": "cross-env NODE_ENV=development knex migrate:make --knexfile src/knexfile.js",
 		"knex:migrate": "cross-env NODE_ENV=development knex migrate:latest --knexfile src/knexfile.js",
 		"knex:rollback": "cross-env NODE_ENV=development knex migrate:rollback --knexfile src/knexfile.js",
-		"knex:seed": "cross-env NODE_ENV=development knex seed:run --knexfile src/knexfile.js"
+		"knex:seed": "cross-env NODE_ENV=development knex seed:run --knexfile src/knexfile.js",
+		"knex:makeseed": "cross-env NODE_ENV=development knex seed:make"
 	},
 	"dependencies": {
 		"bcrypt": "^5.0.1",
@@ -21,6 +23,12 @@
 		"pg": "^8.6.0"
 	},
 	"devDependencies": {
+		"@babel/core": "^7.10.4",
+		"@babel/preset-env": "^7.10.4",
+		"babel-cli": "^6.26.0",
+		"babel-eslint": "^10.1.0",
+		"babel-jest": "^26.1.0",
+		"babel-preset-env": "^1.7.0",
 		"cross-env": "^7.0.3",
 		"nodemon": "^2.0.7"
 	}

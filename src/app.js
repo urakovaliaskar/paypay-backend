@@ -18,7 +18,7 @@ Model.knex(knex);
 
 // api routes
 
-app.use('/api/auth', auth);
+app.use('/api/v1/login', auth);
 app.get('/*', (req, res) => {
 	res.sendFile(path.join(__dirname, 'index.html'));
 });
