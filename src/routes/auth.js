@@ -2,8 +2,8 @@ const express = require('express');
 const authenticate = require('../middlewares/authenticate');
 import { login } from '../controllers/Users';
 
-let router = express.Router();
+let auth = express.Router();
 
-router.post('/', login);
+auth.post('/', login);
 
-module.exports = router;
+export default auth;
