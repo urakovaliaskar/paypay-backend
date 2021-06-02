@@ -5,7 +5,6 @@ exports.seed = knex => {
 		.then(() => {
 			return knex('users').insert([
 				{
-					id: 1,
 					email: 'admin@paypay.com',
 					firstname: 'Admin',
 					lastname: 'Adminson',
@@ -16,7 +15,6 @@ exports.seed = knex => {
 					updated_at: new Date().toISOString(),
 				},
 				{
-					id: 2,
 					email: 'user@paypay.com',
 					firstname: 'User',
 					lastname: 'Userson',

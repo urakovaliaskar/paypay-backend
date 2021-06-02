@@ -89,15 +89,23 @@ export const getUser = async (req, res) => {
 export const createUser = async (req, res) => {
 	const email = req.body.email;
 	const password = req.body.password;
+	const firstname = req.body.firstname;
+	const lastname = req.body.lastname;
 
 	const role = req.body.role ? req.body.role : 'user';
 
-	if (email && password) {
+	if (email && password && firstname && lastname) {
 		try {
 			const exists = await User.query().findOne({ email });
 
 			if (!exists) {
-				const user = await User.query().insert({ email, password, role });
+				const user = await User.query().insert({
+					email,
+					password,
+					role,
+					firstname,
+					lastname,
+				});
 
 				if (user) {
 					delete user.password;
@@ -130,6 +138,8 @@ export const createUser = async (req, res) => {
 export const updateUser = async (req, res) => {
 	const email = req.body.email || null;
 	const password = req.body.password || null;
+	const firstname = req.body.firstname || null;
+	const lastname = req.body.lastname || null;
 	const role = req.body.role || null;
 	const id = parseInt(req.params.id);
 
@@ -137,6 +147,8 @@ export const updateUser = async (req, res) => {
 	if (email) data.email = email;
 	if (password) data.password = password;
 	if (role) data.role = role;
+	if (firstname) data.firstname = firstname;
+	if (lastname) data.lastname = lastname;
 
 	if (!isNaN(id)) {
 		try {
