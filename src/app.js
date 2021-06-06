@@ -11,6 +11,8 @@ app.use(express.json());
 
 import auth from './routes/auth';
 import user from './routes/user';
+import review from './routes/review';
+import feedback from './routes/feedback';
 
 // objection setup
 const knexfile = require('./knexfile');
@@ -20,6 +22,8 @@ Model.knex(knex);
 // api routes
 app.use('/api/v1/login', auth);
 app.use('/api/v1/users', user);
+app.use('/api/v1/reviews', review);
+app.use('/api/v1/feedbacks', feedback);
 
 app.get('/*', (req, res) => {
 	res.sendFile(path.join(__dirname, 'index.html'));

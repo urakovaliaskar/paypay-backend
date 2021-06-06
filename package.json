@@ -10,7 +10,7 @@
 		"knex:migrate": "cross-env NODE_ENV=development knex migrate:latest --knexfile src/knexfile.js",
 		"knex:rollback": "cross-env NODE_ENV=development knex migrate:rollback --knexfile src/knexfile.js",
 		"knex:seed": "cross-env NODE_ENV=development knex seed:run --knexfile src/knexfile.js",
-		"knex:makeseed": "cross-env NODE_ENV=development knex seed:make"
+		"knex:makeseed": "cross-env NODE_ENV=development knex seed:make --knexfile src/knexfile.js"
 	},
 	"dependencies": {
 		"bcrypt": "^5.0.1",

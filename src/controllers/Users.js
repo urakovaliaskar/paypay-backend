@@ -1,6 +1,6 @@
 const User = require('../models/User');
+const Review = require('../models/Review');
 const jwt = require('jsonwebtoken');
-import bcrypt from 'bcrypt';
 
 export const login = async (req, res) => {
 	const { email, password } = req.body;
@@ -11,14 +11,10 @@ export const login = async (req, res) => {
 		let passwordValid = false;
 		if (user) passwordValid = await user.verifyPassword(password);
 
-		console.log(user, password);
-
 		if (user && user.email == email && passwordValid) {
 			const token = jwt.sign({ email: email }, process.env.SECRET_KEY, {
 				expiresIn: '24h',
 			});
-
-			delete user.password;
 
 			res.json({
 				message: 'Authentication is successful!',
@@ -38,16 +34,25 @@ export const login = async (req, res) => {
 };
 
 export const getUsers = async (req, res) => {
-	let page = 0;
-	let size = 20;
-	if (req.body.page) page = req.body.page;
-	if (req.body.size) size = req.body.size;
 	try {
-		const { results, total } = await User.query().page(page, size);
-		if (results)
-			await results.forEach(user => {
-				delete user.password;
-			});
+		let page = 0;
+		let size = 10;
+		let search = '';
+		if (req.query.page) page = req.query.page;
+		if (req.query.size) size = req.query.size;
+		if (req.query.search) search = req.query.search;
+		const { user } = req;
+		const { results, total } = await User.query()
+			.where(builder =>
+				builder
+					.where('firstname', 'ILIKE', `%${search}%`)
+					.orWhere('lastname', 'ILIKE', `%${search}%`)
+			)
+			.whereNot('id', user.id)
+			.withGraphFetched('reviews')
+			.page(page, size)
+			.orderBy('created_at', 'desc');
+
 		res.json({
 			users: results,
 			total,
@@ -63,9 +68,8 @@ export const getUser = async (req, res) => {
 	const id = parseInt(req.params.id);
 	if (!isNaN(id)) {
 		try {
-			const user = await User.query().findById(id);
+			const user = await User.query().findById(id).withGraphFetched('reviews');
 			if (user) {
-				delete user.password;
 				res.json({
 					user,
 				});
@@ -108,7 +112,6 @@ export const createUser = async (req, res) => {
 				});
 
 				if (user) {
-					delete user.password;
 					res.status(201).json({
 						message: 'User created successfuly!',
 						user,
@@ -156,7 +159,6 @@ export const updateUser = async (req, res) => {
 				const user = await User.query().patchAndFetchById(id, data);
 
 				if (user) {
-					delete user.password;
 					res.json({
 						message: 'User was updated successfuly',
 						user,

@@ -11,8 +11,8 @@ import {
 
 let user = express.Router();
 
-user.get('/:id', authenticate, getUser);
 user.get('/', authenticate, getUsers);
+user.get('/:id', authenticate, getUser);
 user.post('/', [authenticate, admin], createUser);
 user.put('/:id', [authenticate, admin], updateUser);
 user.delete('/:id', [authenticate, admin], deleteUser);
